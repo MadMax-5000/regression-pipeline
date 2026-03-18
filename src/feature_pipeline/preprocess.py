@@ -101,13 +101,13 @@ def remove_outliers(df: pd.DataFrame) -> pd.DataFrame:
 def preprocess_split(
         split: str,
         raw_dir: Path | str = RAW_DIR,
-        preprocessed_dire: Path |  str = PROCESSED_DIR,
+        processed_dir: Path |  str = PROCESSED_DIR,
         metros_path: Path | None = "data/raw/usmetros.csv"
 ) -> pd.DataFrame:
     
     """Run preprocessing for a split and save the processed datasets"""
     raw_dir = Path(raw_dir)
-    processed_dir = Path(PROCESSED_DIR)
+    processed_dir = Path(processed_dir) 
     processed_dir.mkdir(parents=True, exist_ok=True)
 
     path = raw_dir / f"{split}.csv"
