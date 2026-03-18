@@ -38,6 +38,8 @@ def load_and_split_data(
     val_df.to_csv(outdir / "val.csv", index=False)
     holdout_df.to_csv(outdir / "holdout.csv", index=False)
 
+    return train_df, val_df, holdout_df
+
 
 if __name__ == "__main__":
     load_and_split_data()
