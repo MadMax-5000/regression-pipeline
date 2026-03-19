@@ -29,7 +29,7 @@ def load_from_s3(key, local_path):
 # ----------------------------
 # Downloads model + training features from S3 if not cached.
 MODEL_PATH = Path(load_from_s3("models/xgb_best_model.pkl", "models/xgb_best_model.pkl"))
-TRAIN_FE_PATH = Path(load_from_s3("processed/feature_engineered_train.csv", "data/processed/feature_engineered_train.csv"))
+TRAIN_FE_PATH = Path(load_from_s3("processed/fe_train.csv", "data/processed/fe_train.csv"))
 
 # Load expected training features for alignment
 if TRAIN_FE_PATH.exists():
@@ -80,18 +80,6 @@ def predict_batch(data: List[dict]):
 
     return resp
 
-# Batch runner
-from src.batch.run_monthly import run_monthly_predictions
-
-# Trigger a monthly batch job via API.
-@app.post("/run_batch")
-def run_batch():
-    preds = run_monthly_predictions()
-    return {
-        "status": "success",
-        "rows_predicted": int(len(preds)),
-        "output_dir": "data/predictions/"
-    }
 
 # Returns a preview of the most recent batch predictions.
 @app.get("/latest_predictions")
@@ -111,7 +99,7 @@ def latest_predictions(limit: int = 5):
 
 
 """
-🔹 Execution Order / Module Flow
+Execution Order / Module Flow
 
 1. Imports (FastAPI, pandas, boto3, your inference function).
 2. Config setup (env vars → bucket/region).
